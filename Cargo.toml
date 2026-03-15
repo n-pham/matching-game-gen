@@ -30,19 +30,20 @@ sqlx = { version = "0.8", features = [
 # Shared Utilities
 tracing = "0.1"
 log = "0.4"
-rand = { version = "0.8", optional = true }
+rand = "0.8"
 futures-timer = "3.0"
 
 [features]
 default = ["web"]
 # The 'web' feature: Compiled for the browser (Wasm)
 web = ["dioxus/web"]
+# The 'desktop' feature: Compiled for a native window
+desktop = ["dioxus/desktop"]
 # The 'server' feature: Compiled for the binary (Axum + SQLx)
 server = [
     "dep:axum",
     "dep:tokio",
-    "dep:sqlx",
-    "dep:rand"
+    "dep:sqlx"
 ]
 
 [profile.release]

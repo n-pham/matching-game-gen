@@ -1,0 +1,15 @@
+[application]
+name = "my_dioxus_app"
+asset_dir = "assets"
+bundle_id = "com.my_dioxus_app.matching-game"
+
+[web.resource]
+style = []
+script = []
+
+[web.watcher]
+watch_path = ["src", "assets"]
+
+[hot_reload]
+watch_path = ["src"]
+template_dir = "src"
