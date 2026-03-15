@@ -7,6 +7,12 @@ The project follows a "Flat-Isomorphic" pattern where features are grouped by do
 .
 ├── Cargo.toml            # Dependencies and Feature flags
 ├── Dioxus.toml           # Dioxus CLI configuration
+├── assets/               # Card images
+│   ├── Artboard 1.svg    # Card image 1
+│   ├── Artboard 2.svg    # Card image 2
+│   ├── Artboard 3.svg    # Card image 3
+│   ├── ...
+│   └── face-down.svg     # Card face-down image
 ├── src
 │   ├── main.rs           # Multi-target Entry Point (Server vs Client)
 │   ├── lib.rs            # Module definitions and shared types

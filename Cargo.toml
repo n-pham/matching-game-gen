@@ -6,6 +6,8 @@ edition = "2021"
 [dependencies]
 # The Core UI Framework (2026 Stable)
 dioxus = { version = "0.7.3", features = ["fullstack", "router"] }
+dioxus-fullstack = "0.7.3"
+dioxus-server = "0.7.3"
 
 # Data Serialization (Crucial for Server Functions)
 serde = { version = "1.0", features = ["derive"] }
@@ -17,7 +19,7 @@ tokio = { version = "1.40", features = ["full", "macros"], optional = true }
 
 # Database (Compile-time safety for your SQL)
 # Features match common 2026 requirements
-sqlx = { version = "0.9.0", features = [
+sqlx = { version = "0.8", features = [
     "runtime-tokio-rustls", 
     "postgres", 
     "macros", 
@@ -28,6 +30,8 @@ sqlx = { version = "0.9.0", features = [
 # Shared Utilities
 tracing = "0.1"
 log = "0.4"
+rand = { version = "0.8", optional = true }
+futures-timer = "3.0"
 
 [features]
 default = ["web"]
@@ -35,10 +39,10 @@ default = ["web"]
 web = ["dioxus/web"]
 # The 'server' feature: Compiled for the binary (Axum + SQLx)
 server = [
-    "dioxus/axum",
     "dep:axum",
     "dep:tokio",
-    "dep:sqlx"
+    "dep:sqlx",
+    "dep:rand"
 ]
 
 [profile.release]

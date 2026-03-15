@@ -1,5 +1,13 @@
 # AGENTS.md
 
+## Business: Memory Match game
+- **The Setup**: A grid of cards is laid out face-down. Each card has a hidden image with exactly one matching pair somewhere on the board.
+- **The Turn**: Click any card to reveal its image. Then, click a second card to find its match.
+- **The Outcome**:
+  + Match: If the two images are identical, they stay face-up and cannot be clicked anymore.
+  + Mismatch: If they don't match, both cards will flip back face-down after the next click.
+- **Winning**: The game is won once every pair has been successfully revealed and the entire board is cleared. Then a button `New game` is shown to start a new fresh round.
+
 ## 🎯 Architecture: Dioxus Fullstack (2026)
 **Goal:** Maximum compile-time safety and cross-platform portability (Web/Desktop) via a single Rust codebase.
 
