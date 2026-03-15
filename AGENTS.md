@@ -43,19 +43,26 @@
 ## Code Unit Test
 
 ### 1. Code Unit Test Rules
-- Maintain **>80% line coverage** across the entire workspace. Tests must be categorized by execution environment to ensure the AI agent validates both Backend logic and Frontend reactivity.
-- Before implementing a function, the AI agent must generate a `#[cfg(test)]` module at the bottom of the file. Use `tokio::test` for any asynchronous `#[server]` functions. Use the `mockall` crate for external service/database dependencies. Reactive Signals UI tests must verify that changing a `Signal` value updates the intended DOM element (using `dioxus-check` or manual `rsx!` inspection).
+- **Mandatory Coverage**: Maintain **>80% line coverage** across the entire workspace. This is a hard requirement for all code modifications.
+- **Workflow**: Before completing any Directive, the AI agent **must** run `cargo llvm-cov` and verify that the coverage remains above 80%. If coverage drops, the agent must add missing tests before finishing.
+- **Test Placement**: Before implementing a function, the AI agent must generate a `#[cfg(test)]` module at the bottom of the file.
+- **Async Testing**: Use `tokio::test` for any asynchronous `#[server]` functions.
+- **Mocks**: Use the `mockall` crate for external service/database dependencies.
+- **UI Testing**: Reactive Signals UI tests must verify that changing a `Signal` value updates the intended DOM element (using `dioxus-check` or manual `rsx!` inspection).
 
-### 2. Server-Side Testing
+### 2. Execution Commands
 
-For logic in `src/server.rs`, `src/api.rs`, and `src/models.rs`.
+The AI agent must execute these commands to validate the implementation:
+
+**Server-Side & Logic Coverage:**
 ```bash
-cargo llvm-cov --all-features --workspace --fail-under-lines 80
+cargo llvm-cov --all-features --fail-under-lines 80
 ```
 
-### 3. Frontend Component Testing (Wasm)
-
-For UI logic in `src/components.rs` and `src/routes/`, since Wasm doesn't support standard LLVM instrumentation natively, the AI agent should use `wasm-bindgen-test-runner`.
+**Frontend Component Testing (Wasm/Desktop):**
+For UI logic in `src/components.rs` and `src/routes/`, use standard unit tests or `dioxus-check` when available.
 ```bash
+# For Wasm targets
 wasm-pack test --node -- --all-features
 ```
+
