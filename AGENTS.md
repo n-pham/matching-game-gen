@@ -31,3 +31,23 @@
 - **SQL Safety:** Use `sqlx::query!` macros to validate queries against the schema during compilation.
 - **Strong Typing:** Use Enums for routing and internal state logic instead of strings.
 - **Conditional Compilation:** Wrap server-only code (DB drivers, private keys) in `#[cfg(feature = "server")]`.
+
+## Code Unit Test
+
+### 1. Code Unit Test Rules
+- Maintain **>80% line coverage** across the entire workspace. Tests must be categorized by execution environment to ensure the AI agent validates both Backend logic and Frontend reactivity.
+- Before implementing a function, the AI agent must generate a `#[cfg(test)]` module at the bottom of the file. Use `tokio::test` for any asynchronous `#[server]` functions. Use the `mockall` crate for external service/database dependencies. Reactive Signals UI tests must verify that changing a `Signal` value updates the intended DOM element (using `dioxus-check` or manual `rsx!` inspection).
+
+### 2. Server-Side Testing
+
+For logic in `src/server.rs`, `src/api.rs`, and `src/models.rs`.
+```bash
+cargo llvm-cov --all-features --workspace --fail-under-lines 80
+```
+
+### 3. Frontend Component Testing (Wasm)
+
+For UI logic in `src/components.rs` and `src/routes/`, since Wasm doesn't support standard LLVM instrumentation natively, the AI agent should use `wasm-bindgen-test-runner`.
+```bash
+wasm-pack test --node -- --all-features
+```

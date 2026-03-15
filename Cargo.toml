@@ -1,0 +1,49 @@
+[package]
+name = "my_dioxus_app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# The Core UI Framework (2026 Stable)
+dioxus = { version = "0.7.3", features = ["fullstack", "router"] }
+
+# Data Serialization (Crucial for Server Functions)
+serde = { version = "1.0", features = ["derive"] }
+
+# Backend Web Server Integration
+# Dioxus handles the glue, but Axum is the engine.
+axum = { version = "0.8.0", optional = true }
+tokio = { version = "1.40", features = ["full", "macros"], optional = true }
+
+# Database (Compile-time safety for your SQL)
+# Features match common 2026 requirements
+sqlx = { version = "0.9.0", features = [
+    "runtime-tokio-rustls", 
+    "postgres", 
+    "macros", 
+    "chrono", 
+    "uuid"
+], optional = true }
+
+# Shared Utilities
+tracing = "0.1"
+log = "0.4"
+
+[features]
+default = ["web"]
+# The 'web' feature: Compiled for the browser (Wasm)
+web = ["dioxus/web"]
+# The 'server' feature: Compiled for the binary (Axum + SQLx)
+server = [
+    "dioxus/axum",
+    "dep:axum",
+    "dep:tokio",
+    "dep:sqlx"
+]
+
+[profile.release]
+# Optimize for small Wasm binaries
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = 'abort'
