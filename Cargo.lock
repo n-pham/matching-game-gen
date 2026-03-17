@@ -3265,6 +3265,7 @@ dependencies = [
  "dioxus",
  "dioxus-fullstack",
  "dioxus-server",
+ "dioxus-ssr",
  "futures-timer",
  "log",
  "rand 0.8.5",

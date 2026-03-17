@@ -24,3 +24,22 @@ mod server_impl {
 
 #[cfg(feature = "server")]
 pub use server_impl::*;
+
+#[cfg(all(test, feature = "server"))]
+mod tests {
+    use super::*;
+
+    #[tokio::test]
+    async fn test_init_db() {
+        init_db().await;
+        let data = get_data().lock().unwrap();
+        assert!(data.len() >= 2);
+    }
+
+    #[test]
+    fn test_get_data_is_singleton() {
+        let data1 = get_data();
+        let data2 = get_data();
+        assert!(std::ptr::eq(data1, data2));
+    }
+}

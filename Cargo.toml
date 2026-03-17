@@ -46,6 +46,9 @@ server = [
     "dep:sqlx"
 ]
 
+[dev-dependencies]
+dioxus-ssr = "0.7.3"
+
 [profile.release]
 # Optimize for small Wasm binaries
 opt-level = 'z'

@@ -176,4 +176,25 @@ mod tests {
             "src/main.rs should use Config::new() for Desktop launch"
         );
     }
+
+    #[tokio::test]
+    #[cfg(feature = "server")]
+    async fn test_submit_and_get_scores() {
+        // Ensure DB is init
+        crate::server::init_db().await;
+        
+        // Clear or just add
+        submit_score("Tester".to_string(), 9999, 10).await.unwrap();
+        
+        let scores = get_high_scores().await.unwrap();
+        assert!(scores.iter().any(|s| s.player_name == "Tester" && s.score == 9999));
+    }
+
+    #[tokio::test]
+    #[cfg(feature = "server")]
+    async fn test_get_shuffled_cards_rpc() {
+        let result = get_shuffled_cards().await;
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap().len(), 12);
+    }
 }

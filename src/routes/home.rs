@@ -146,3 +146,18 @@ pub fn Home() -> Element {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_home_render() {
+        let mut dom = VirtualDom::new(Home);
+        dom.rebuild_in_place();
+        let html = dioxus_ssr::render(&dom);
+        assert!(html.contains("Score: 0"));
+        assert!(html.contains("Attempts: 0"));
+        assert!(html.contains("Restart Game"));
+    }
+}

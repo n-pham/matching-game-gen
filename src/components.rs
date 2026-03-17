@@ -36,3 +36,35 @@ pub fn ScoreBoard(score: i32, attempts: i32) -> Element {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_scoreboard_render() {
+        let mut dom = VirtualDom::new_with_props(ScoreBoard, ScoreBoardProps { score: 10, attempts: 5 });
+        dom.rebuild_in_place();
+        let html = dioxus_ssr::render(&dom);
+        assert!(html.contains("Score: 10"));
+        assert!(html.contains("Attempts: 5"));
+    }
+
+    #[test]
+    fn test_card_component_render() {
+        #[allow(non_snake_case)]
+        fn TestWrapper() -> Element {
+            let card = Card { id: 1, image_path: "test.svg".into(), is_flipped: true, is_matched: false };
+            rsx! {
+                CardComponent { 
+                    card: card, 
+                    on_click: |_| {} 
+                }
+            }
+        }
+        let mut dom = VirtualDom::new(TestWrapper);
+        dom.rebuild_in_place();
+        let html = dioxus_ssr::render(&dom);
+        assert!(html.contains("test.svg"));
+    }
+}
